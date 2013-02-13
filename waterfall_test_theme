@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+begin
+  require 'rubygems'
+  require 'bundler/setup'
+
+  Bundler.require
+
+  Dir[File.join(".","lib","**","*.rb")].each {|f| require f}
+  WaterfallTestTheme.start
+rescue LoadError
+  puts 'Required libraries were not found.  Please run the following:'
+  puts
+  puts "\tgem install bundler"
+  puts "\tbundle install"
+end

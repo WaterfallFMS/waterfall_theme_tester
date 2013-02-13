@@ -1,0 +1,3 @@
+class WaterfallTestTheme < Thor
+
+end
