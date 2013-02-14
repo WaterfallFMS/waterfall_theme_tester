@@ -105,7 +105,7 @@ class Check < Base
 
   desc 'yield_page', 'Checks that the layouts include the yield_page directive'
   def yield_page
-    ['application.html', 'franchise.hml', 'store.hml', 'login.html'].each do |page|
+    ['application.html', 'franchise.html', 'store.html', 'login.html'].each do |page|
       page = file_path 'layouts', page
       unless File.exists? page
         say_status :missing, page, :red
@@ -144,6 +144,21 @@ class Check < Base
     end
   end
 
+  desc 'no_franchise', 'Checks that the store link doesn\'t exist on corporate pages'
+  def no_corporate_store_link
+    ['index.html','application.html','login.html'].each do |page|
+      page = file_path 'layouts', page
+      next unless File.exists? page
+
+      open(page) do |f|
+        found = f.readlines.grep(/store_link/)
+        unless found.empty?
+          say_status :store_link_found, page, :red
+        end
+      end
+    end
+  end
+
   desc 'all', 'Run all checks'
   def all
     say "Checking theme #{dir}"
@@ -161,6 +176,7 @@ class Check < Base
 
     invoke :case_sensitive
     invoke :yield_page
+    invoke :no_corporate_store_link
   end
   default_task :all
 end
