@@ -1,5 +1,11 @@
 module WaterfallThemeTester
   module Liquid
+    class PageUrl < ::Liquid::Tag
+      def render(context)
+        '/'
+      end
+    end
+
     class GenericLink < ::Liquid::Tag
       def initialize(tag_name, title, tokens)
         super
@@ -13,7 +19,7 @@ module WaterfallThemeTester
   end
 end
 
-::Liquid::Template.register_tag('page_url', WaterfallThemeTester::Liquid::GenericLink)
+::Liquid::Template.register_tag('page_url', WaterfallThemeTester::Liquid::PageUrl)
 ::Liquid::Template.register_tag('page_link', WaterfallThemeTester::Liquid::GenericLink)
 ::Liquid::Template.register_tag('blog_link', WaterfallThemeTester::Liquid::GenericLink)
 ::Liquid::Template.register_tag('events_link', WaterfallThemeTester::Liquid::GenericLink)
