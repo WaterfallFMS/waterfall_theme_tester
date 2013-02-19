@@ -99,6 +99,9 @@ class Check < Base
   desc 'case_sensitive', 'Checks for files with capitol letters since they can cause problems'
   def case_sensitive
     files_in('**', '*[A-Z]*').each do |file|
+      next if file =~ %r[/views/]
+      next if file =~ %r[/test_data/]
+      next if file =~ /README.md$/
       say_status 'bad case', file, :red
     end
   end
