@@ -104,6 +104,11 @@ Similar to `yield_content` you can add a file to `/test_data` to be rendered as 
 
 If no `body.html` is provided then 5 paragraphs of lorem ipsum are provided.
 
+##### Waterfall provided pages
+There are several waterfall provided pages in `/test_data/bodies`.  This allows you to see the DOM and adjust the styles to fit your theme.  You should not change the DOM as it will not have any effect on waterfall.
+
+You must pass in the `--app-bodies` options to the theme tester.
+
 #### yield_partial
 Due to the nature of HTML there is a lot repeats between layouts.  This is solved by taking repeated segments and moving them into a partial.  A partial is just an html file starting with "_".  For exmple, "_head.html" is a common partial that would define the stylesheet, and javascript links; which don't generally change per page.
 

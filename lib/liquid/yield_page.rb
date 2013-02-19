@@ -1,9 +1,10 @@
 module WaterfallThemeTester
   module Liquid
     class YieldPage < YieldContent
-      def initialize(*args)
+      def render(context)
+        @layout = env_variable :body_file, context
+
         super
-        @layout = 'body'
       end
 
       def lorem_ipsum

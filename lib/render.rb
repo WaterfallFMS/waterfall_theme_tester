@@ -2,18 +2,19 @@ class Render < Base
 
   desc 'create_views', 'Creates the views directory'
   def create_views
-    Dir.mkdir file_path('views')
+    Dir.mkdir file_path('views') unless File.exists? file_path('views')
     say_status :created, 'views'
-  rescue
-    say_status :skip, 'views'
   end
 
   desc 'all', 'Renders all layouts into views'
   def all
     say 'Rendering'
     invoke :create_views
-    ['index.html','application.html','franchise.html','franchise_index.html','login.html','store.html'].each do |f|
-      render f
+
+    bodies.each do |b|
+      layouts.each do |f|
+        render f, b
+      end
     end
   end
 
@@ -23,9 +24,9 @@ class Render < Base
       {}
     end
 
-    def render(layout)
+    def render(layout,body)
       input  = file_path('layouts',layout)
-      output = file_path('views',layout)
+      output = output_file layout, body
 
       unless File.exists? input
         say_status :missing, layout, :yellow
@@ -34,10 +35,27 @@ class Render < Base
       open(input) do |f|
         template = Liquid::Template.parse f.readlines.join
         open(output,'w') do |out|
-          out.write template.render :location => location, :layout_dir => file_path('layouts')
+          out.write template.render :location => location, :layout_dir => file_path('layouts'), :body_file => body
         end
       end
-      say_status :rendered, layout, :green
+      say_status :rendered, output, :green
+    end
+
+    def bodies
+      return ['body'] unless options[:'all-bodies']
+
+      ['body'].concat(files_in('test_data','bodies','*.html').map{|f| File.join('bodies',File.basename(f.gsub('.html','')))}).compact
+    end
+
+    def layouts
+      ['index.html','application.html','franchise.html','franchise_index.html','login.html','store.html']
+    end
+
+    def output_file(layout, body_file)
+      dir  = body_file == 'body' ? '1' : File.basename(body_file).gsub('.html','')
+      name = File.basename(layout)
+
+      file_path('views',[dir,name].compact.join('_'))
     end
   end
 end

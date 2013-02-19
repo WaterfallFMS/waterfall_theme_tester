@@ -1,11 +1,15 @@
 module WaterfallThemeTester
   module Liquid
     module FileBehavior
-      def layout_dir(context)
+      def env_variable(variable, context)
         context.environments.each do |env|
-          return env[:layout_dir] if env.has_key? :layout_dir
+          return env[variable] if env.has_key? variable
         end
         nil
+      end
+
+      def layout_dir(context)
+        env_variable :layout_dir, context
       end
 
       def partial_name(layout,context)

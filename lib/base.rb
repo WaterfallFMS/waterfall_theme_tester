@@ -1,5 +1,6 @@
 class Base < Thor
-  class_option :dir, :type => :string, :default => '.'
+  class_option :dir, :type => :string, :default => '.', :desc => 'Directory of theme'
+  class_option :'all-bodies', :type => :boolean, :default => false, :desc => 'Render all bodies, not just the user supplied one'
 
   no_tasks do
     def file_path(*args)
