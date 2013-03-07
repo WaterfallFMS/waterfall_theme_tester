@@ -39,6 +39,8 @@ class Render < Base
         end
       end
       say_status :rendered, output, :green
+    rescue Errno::ENOENT
+      say_status :skipping, input, :yellow
     end
 
     def bodies
