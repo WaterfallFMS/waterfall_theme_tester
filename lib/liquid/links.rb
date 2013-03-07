@@ -20,7 +20,9 @@ module WaterfallThemeTester
 end
 
 ::Liquid::Template.register_tag('page_url', WaterfallThemeTester::Liquid::PageUrl)
+::Liquid::Template.register_tag('root_url', WaterfallThemeTester::Liquid::PageUrl)
 ::Liquid::Template.register_tag('page_link', WaterfallThemeTester::Liquid::GenericLink)
+::Liquid::Template.register_tag('root_link', WaterfallThemeTester::Liquid::GenericLink)
 ::Liquid::Template.register_tag('blog_link', WaterfallThemeTester::Liquid::GenericLink)
 ::Liquid::Template.register_tag('events_link', WaterfallThemeTester::Liquid::GenericLink)
 ::Liquid::Template.register_tag('jobs_link', WaterfallThemeTester::Liquid::GenericLink)
