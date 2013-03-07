@@ -119,11 +119,11 @@ class Check < Base
         found = f.readlines.grep(/yield_page/)
         case found.size
           when 0 then
-            say_status 'no yield', page, :red
+            say_status 'no yield_page', page, :red
           when 1 then
             nil
           else
-            say_status 'many yields', page, :red
+            say_status 'many yield_page', page, :red
         end
       end
     end
@@ -131,7 +131,7 @@ class Check < Base
 
   desc 'no_yield_page', 'Checks that the layouts exclude the yield_page directive'
   def no_yield_page
-    ['index.html', 'franchise_index.hml'].each do |page|
+    ['index.html', 'franchise_index.html'].each do |page|
       page = file_path 'layouts', page
       unless File.exists? page
         say_status :missing, page, :red
@@ -141,7 +141,25 @@ class Check < Base
       open(page) do |f|
         found = f.readlines.grep(/yield_page/)
         if found.size != 0
-          say_status 'yield', page, :red
+          say_status 'yield_path', page, :red
+        end
+      end
+    end
+  end
+
+  desc 'yield_flash', 'Checks that yield flash is used'
+  def yield_flash
+    ['index.html', 'franchise_index.html','application.html', 'franchise.html', 'store.html', 'login.html'].each do |page|
+      page = file_path 'layouts', page
+      unless File.exists? page
+        say_status :missing, page, :red
+        next
+      end
+
+      open(page) do |f|
+        found = f.readlines.grep(/yield_flash/)
+        if found.size != 1
+          say_status 'no yield_flash', page, :red
         end
       end
     end
@@ -179,6 +197,7 @@ class Check < Base
 
     invoke :case_sensitive
     invoke :yield_page
+    invoke :yield_flash
     invoke :no_corporate_store_link
   end
   default_task :all
