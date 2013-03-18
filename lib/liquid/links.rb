@@ -19,7 +19,7 @@ module WaterfallThemeTester
       def page_title_url
         return '/pages' if @tag_name =~/^pages/
 
-        '/' + @title.strip.gsub(' ','_').downcase
+        '/pages/' + @title.strip.gsub(' ','_').downcase
       end
     end
 
