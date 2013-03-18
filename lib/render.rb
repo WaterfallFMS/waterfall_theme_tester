@@ -21,7 +21,7 @@ class Render < Base
   no_tasks do
     def location
       # simulate a location liquid object
-      {}
+      Location.new
     end
 
     def render(layout,body)
@@ -35,7 +35,7 @@ class Render < Base
       open(input) do |f|
         template = Liquid::Template.parse f.readlines.join
         open(output,'w') do |out|
-          out.write template.render :location => location, :layout_dir => file_path('layouts'), :body_file => body
+          out.write template.render 'location' => location, :layout_dir => file_path('layouts'), :body_file => body
         end
       end
       say_status :rendered, output, :green
