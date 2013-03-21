@@ -66,7 +66,7 @@ We add a `location` for use on franchise layouts.  It simulates the behavior tha
 Waterfall data is dynamic and therefore changes.  We provide the following tags to eliminate static behavior which will break in production.
 
 #### Link Tags
-We provide the following link tags which should be used in themes instead of links to internal pages.
+We provide the following link tags which should be used in themes instead of links to internal pages.  There are two types of link tags `x_link` and `x_url`.  The `x_link` will produce a full HTML link and always require arguments.  The `x_url` only produces a URL, not a full anchor tag.  Only `page_url` requires arguments.
 
 
 `{% page_url Page title %}` - Finds the page by title (case sensitive) and provides the URL to it.  If not found it provides the location root or corporate root, depending on site.  Your IA document should define all the pages for all the sites that are valid.
@@ -139,3 +139,21 @@ Due to the nature of HTML there is a lot repeats between layouts.  This is solve
       </head>
       ...
     </html>
+
+### Production placeholder tags
+The following tags play little or no role in the theme package, but are essential for Waterfall to operate in production.
+
+#### seo_tags (head only)
+In production this will be replaced by meta keywords and meta description tags.
+
+#### analytics_tag (head only)
+In production this will be replaced by a google analytics tag if one is configured.
+
+#### default_js (head only)
+Renders reference to jQuery and the calendar js.  In production it renders the correct javascript script tags.  These files move in production so it is important not to simply include jquery directly.
+
+#### yield_head (head only)
+In production it renders page specific information that MUST be included in the head.  With out this placehold many Waterfall pages will not function
+
+#### yield_script (body only)
+In production it renders scripts and other things that MUST be included at the bottom of the page.  For example, google maps widget.
