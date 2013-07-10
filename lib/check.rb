@@ -38,23 +38,28 @@ class Check < Base
     images.delete_if {|f| File.directory? f}
     images.delete_if {|f| f =~ /favicon.ico$/ }
     images.delete_if {|f| f =~ /admin-logo.png$/ }
-    images = images.map {|file| file.gsub(dir,'').gsub('images','').gsub(/^\/*/,'')}
-
+    images = images.map {|file| file.gsub(dir,'').gsub('images','').gsub(/^\/*/,'')}.uniq
+    
+    images = images.inject({}) {|hash,image| hash[image] = false; hash}
+    
+    # images = %W(white-arrows.png)
     layouts = files_in('views','**','*.html*').
                 concat(files_in('layouts','**','*.html*')).
                 concat(files_in('stylesheets','**','*.css'))
     layouts.each do |file|
       open(file) do |f|
         lines = f.readlines
-        images.each do |image|
+        images.each do |image,found|
+          next if found
           unless lines.grep(/#{image}/).empty?
-            images.delete image
+            images[image] = true
           end
         end
       end
     end
-
-    images.each do |image|
+    
+    images.each do |image,found|
+      next if found
       say_status "unused image", file_path('images',image), :red
     end
   end
