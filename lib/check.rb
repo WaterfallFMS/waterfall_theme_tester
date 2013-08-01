@@ -180,7 +180,7 @@ class Check < Base
       end
 
       open(page) do |f|
-        found = f.readlines.grep(/title/)
+        found = f.readlines.grep(%r(\<title\>))
         if found.size == 1
           say_status 'title', page, :red
         end
