@@ -8,7 +8,6 @@ module WaterfallThemeTester
   end
 end
 
-::Liquid::Template.register_tag('seo_tags', WaterfallThemeTester::Liquid::EmptyTag)
 ::Liquid::Template.register_tag('analytics_tag', WaterfallThemeTester::Liquid::EmptyTag)
 ::Liquid::Template.register_tag('yield_head', WaterfallThemeTester::Liquid::EmptyTag)
 ::Liquid::Template.register_tag('yield_scripts', WaterfallThemeTester::Liquid::EmptyTag)
