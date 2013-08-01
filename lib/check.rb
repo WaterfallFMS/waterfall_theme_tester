@@ -172,13 +172,7 @@ class Check < Base
 
   desc 'no title', 'Checks that there is no title tag'
   def no_title
-    ['index.html', 'franchise_index.html','application.html', 'franchise.html', 'store.html', 'login.html', '_head.html', '_corp_header.html', '_fran_header.html'].each do |page|
-      page = file_path 'layouts', page
-      unless File.exists? page
-        say_status :missing, page, :red
-        next
-      end
-
+    Dir[file_path('layouts', '*')].each do |page|
       open(page) do |f|
         found = f.readlines.grep(%r(\<title\>))
         if found.size == 1
