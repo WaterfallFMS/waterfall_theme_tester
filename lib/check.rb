@@ -175,7 +175,7 @@ class Check < Base
     Dir[file_path('layouts', '*')].each do |page|
       open(page) do |f|
         found = f.readlines.grep(%r(\<title\>))
-        if found.size == 1
+        if found.size >= 1
           say_status 'title', page, :red
         end
       end
