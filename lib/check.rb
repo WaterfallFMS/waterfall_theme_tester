@@ -170,6 +170,18 @@ class Check < Base
     end
   end
 
+  desc 'no title', 'Checks that there is no title tag'
+  def no_title
+    Dir[file_path('layouts', '*')].each do |page|
+      open(page) do |f|
+        found = f.readlines.grep(%r(\<title\>))
+        if found.size >= 1
+          say_status 'title', page, :red
+        end
+      end
+    end
+  end
+
   desc 'no_franchise', 'Checks that the store link doesn\'t exist on corporate pages'
   def no_corporate_store_link
     ['index.html','application.html','login.html'].each do |page|
@@ -203,6 +215,7 @@ class Check < Base
     invoke :case_sensitive
     invoke :yield_page
     invoke :yield_flash
+    invoke :no_title
     invoke :no_corporate_store_link
   end
   default_task :all
