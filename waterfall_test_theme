@@ -6,7 +6,7 @@ begin
   Bundler.require
   require 'thor/group' # because bundler can't do it
 
-  Dir[File.join(".","lib","**","*.rb")].each {|f| require f}
+  Dir[File.join(".","lib","**","*.rb")].sort.each {|f| require f}
   WaterfallTestTheme.start
 rescue LoadError
   puts 'Required libraries were not found.  Please run the following:'
